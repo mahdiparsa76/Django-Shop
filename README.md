@@ -1,4 +1,4 @@
-# shop
+# shop preview
 
--[project preview]  (https://store-parslearn.fandogh.cloud/)
+-[]  shop [https://store-parslearn.fandogh.cloud/]
 
