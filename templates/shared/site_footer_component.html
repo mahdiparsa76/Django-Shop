@@ -1,0 +1,73 @@
+<footer id="footer"><!--Footer-->
+    <div class="footer-Before">
+        <div class="container">
+            <div class="block-news">
+                <div class="row">
+                    <h3>با عضویت در خبـرنامه ما از تخفیفات ویـژه ما با خبـر شوید ... </h3>
+                    <div class="searchform newslatter">
+                        <input type="text" placeholder="آدرس ایمیـل شما ..."/>
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-arrow-circle-o-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="address">
+                        <img src="/static/images/home/map.png" alt=""/>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="address">
+                        <img src="/static/images/home/map.png" alt=""/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="companyinfo">
+                        <h2>{{ site_setting.site_name }}</h2>
+                        <h4>درباره ما :</h4>
+                        <p>{{ site_setting.about_us_text }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-widget">
+        <div class="container">
+            <div class="row">
+                {% for footer_link_box in footer_link_boxes %}
+                    <div class="col-sm-3 pull-right">
+                        <div class="single-widget">
+                            <h2>{{ footer_link_box.title }}</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                {% for link in footer_link_box.footerlink_set.all %}
+                                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom" style="direction: ltr !important;">
+        <div class="container">
+            <div class="row">
+                <p class="pull-right">
+                    {{ site_setting.copy_right }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer><!--/Footer-->

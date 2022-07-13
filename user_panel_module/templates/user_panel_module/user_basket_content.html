@@ -1,0 +1,89 @@
+{% load poll_extras %}
+
+{% if order.orderdetail_set.all %}
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="#">خانـه</a></li>
+                    <li class="active">پرداخت</li>
+                </ol>
+            </div><!--/breadcrums-->
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">کـالا</td>
+                        <td class="description"></td>
+                        <td class="price">قیمت</td>
+                        <td class="quantity">تعـداد</td>
+                        <td class="total">مجمـوع</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for detail in order.orderdetail_set.all %}
+                        <tr>
+                            <td class="cart_product">
+                                <a href=""><img src="{{ detail.product.image.url }}" width="75" alt=""></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4><a href="" class="one-line-text">{{ detail.product.title }}</a></h4>
+                                <p>شناسـه : {{ detail.product.id }}</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>{{ detail.product.price|three_digits_currency }}</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <a class="cart_quantity_up cursor-pointer"
+                                       onclick="changeOrderDetailCount({{ detail.id }}, 'increase')"> + </a>
+                                    <input class="cart_quantity_input" type="text" name="quantity"
+                                           value="{{ detail.count }}"
+                                           autocomplete="off" size="2">
+                                    <a class="cart_quantity_down  cursor-pointer"
+                                       onclick="changeOrderDetailCount({{ detail.id }}, 'decrease')"> - </a>
+                                </div>
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price"> {% multiply detail.count detail.product.price %} </p>
+                                {# <p class="cart_total_price"> {{ detail.get_total_price|three_digits_currency }} </p>#}
+                            </td>
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete" onclick="removeOrderDetail({{ detail.id }})"><i
+                                        class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="do_action">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="total_area">
+                        <ul>
+                            <li>مجمـوع سبـد خریـد <span>{{ sum|three_digits_currency }}</span></li>
+                        </ul>
+                        <a class="btn btn-default check_out" href="checkout.html">پرداخت</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <p>سبد خرید شما خالی می باشد</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

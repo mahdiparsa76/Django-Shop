@@ -1,0 +1,97 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}
+    تماس با ما
+{% endblock %}
+
+{% block content %}
+    <div id="contact-page" class="container">
+        <div class="bg">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="contact-form">
+                        <h2 class="title text-center">با ما در ارتباط باشیـد</h2>
+                        <div class="status alert alert-success" style="display: none"></div>
+                        <form id="main-contact-form" class="contact-form row" action="{% url 'contact_us_page' %}"
+                              method="post">
+                            {% csrf_token %}
+
+                            {% comment %}{% for field in form %}
+                                <div class="col-md-12 form-group">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% endfor %}
+
+                            <hr>{% endcomment %}
+
+
+                            <div class="col-md-6 form-group">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                {{ form.full_name.label_tag }}
+                                {{ form.full_name }}
+                                {{ form.full_name.errors }}
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                                {{ form.title.errors }}
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                {{ form.message.label_tag }}
+                                {{ form.message }}
+                                {{ form.message.errors }}
+                            </div>
+
+                            {% comment %}{{ form }}{% endcomment %}
+                            {% comment %}<div class="form-group col-md-6">
+                                <input type="text" name="fullname" class="form-control"
+                                       placeholder="نام">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="email" name="email" class="form-control"
+                                       placeholder="ایمیـل">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="text" name="subject" class="form-control"
+                                       placeholder="موضـوع">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <textarea name="message" id="message" class="form-control" rows="8"
+                                          placeholder="پیغـام شمـا"></textarea>
+                            </div>{% endcomment %}
+                            <div class="form-group col-md-12">
+                                {% comment %}<input type="submit" name="submit" class="btn btn-primary pull-right" value="ارسـال">{% endcomment %}
+                                <button type="submit" class="btn btn-primary pull-right">ارسال</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="contact-info">
+                        <h2 class="title text-center">اطلاعات تماس</h2>
+                        <address>
+                            <p>{{ site_setting.site_name }}</p>
+                            <p> آدرس: {{ site_setting.address }}</p>
+                            <p>تلفن تماس : {{ site_setting.phone }}</p>
+                            {% if site_setting.fax %}
+                                <p>فکس : {{ site_setting.fax }}</p>
+                            {% endif %}
+                            {% if site_setting.email %}
+                                <p style="font-family: tahoma;">ایمیـل : {{ site_setting.email }}</p>
+                            {% endif %}
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

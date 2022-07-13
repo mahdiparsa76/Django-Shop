@@ -1,0 +1,48 @@
+{% load poll_extras %}
+
+<h2> نظرات ({{ comments_count }})</h2>
+<ul class="media-list">
+    {% for comment in comments %}
+        <li class="media" id="single_comment_box_{{ comment.id }}">
+            <a class="pull-right" href="#">
+                <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+            </a>
+            <div class="media-body">
+                <ul class="sinlge-post-meta">
+                    <li><i class="fa fa-user"></i>{{ comment.user }}</li>
+                    <li><i class="fa fa-clock-o"></i> {{ comment.create_date | time }}</li>
+                    <li>
+                        <i class="fa fa-calendar"></i> {{ comment.create_date|show_jalali_date }}
+                    </li>
+                </ul>
+                <p>
+                    {{ comment.text }}
+                </p>
+                <a class="btn btn-primary" onclick="fillParentId({{ comment.id }})"><i
+                        class="fa fa-reply"></i>پاسـخ</a>
+            </div>
+        </li>
+
+        {% for sub_comment in comment.articlecomment_set.all %}
+            <li class="media second-media" id="single_comment_box_{{ comment.id }}">
+                <a class="pull-right" href="#">
+                    <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                </a>
+                <div class="media-body">
+                    <ul class="sinlge-post-meta">
+                        <li><i class="fa fa-user"></i>{{ sub_comment.user }}</li>
+                        <li><i class="fa fa-clock-o"></i> {{ sub_comment.create_date | time }}
+                        </li>
+                        <li>
+                            <i class="fa fa-calendar"></i> {{ sub_comment.create_date|show_jalali_date }}
+                        </li>
+                    </ul>
+                    <p>
+                        {{ sub_comment.text }}
+                    </p>
+                </div>
+            </li>
+        {% endfor %}
+    {% endfor %}
+
+</ul>

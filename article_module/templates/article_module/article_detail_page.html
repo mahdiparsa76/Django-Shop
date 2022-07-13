@@ -1,0 +1,154 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load poll_extras %}
+{% load thumbnail %}
+
+{% block title %}
+    جزییات مقاله
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-9">
+                    <div class="blog-post-area">
+                        <h2 class="title text-center">{{ article.title }}</h2>
+                        <div class="single-blog-post">
+                            <h3>{{ article.title }}</h3>
+                            <div class="post-meta">
+                                <ul>
+                                    {% if article.author is not None %}
+                                        <li><i class="fa fa-user"></i> {{ article.author }}</li>
+                                    {% endif %}
+                                    <li><i class="fa fa-clock-o"></i>{{ article.get_jalali_create_time }}</li>
+                                    <li><i class="fa fa-calendar"></i>{{ article.create_date | show_jalali_date }}
+                                    </li>
+                                </ul>
+                                <span>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-half-o"></i>
+								</span>
+                            </div>
+                            <a href="">
+                                {% thumbnail article.image "862x398" quality=95 crop='center' as im %}
+                                    <img src="{{ im.url }}">
+                                {% endthumbnail %}
+                            </a>
+                            <p>
+                                {{ article.short_description }}
+                            </p>
+                            <p>
+                                {{ article.text }}
+                            </p>
+                        </div>
+                    </div><!--/blog-post-area-->
+
+
+                    {% if article.author %}
+                        <div class="media commnets">
+                            <a class="pull-right" href="#">
+                                {% if article.author.avatar %}
+                                    {% thumbnail article.author.avatar "121x86" quality=95 crop='center' as im %}
+                                        <img class="media-object" src="{{ im.url }}">
+                                    {% endthumbnail %}
+                                {% else %}
+                                    <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                                {% endif %}
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">نویسنده : {{ article.author }}</h4>
+                                <p>
+                                    {{ article.author.about_user }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!--Comments-->
+                    <div class="response-area" id="comments_area">
+                        <h2> نظرات ({{ comments_count }})</h2>
+                        <ul class="media-list">
+                            {% for comment in comments %}
+                                <li class="media" id="single_comment_box_{{ comment.id }}">
+                                    <a class="pull-right" href="#">
+                                        <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                                    </a>
+                                    <div class="media-body">
+                                        <ul class="sinlge-post-meta">
+                                            <li><i class="fa fa-user"></i>{{ comment.user }}</li>
+                                            <li><i class="fa fa-clock-o"></i> {{ comment.create_date | time }}</li>
+                                            <li>
+                                                <i class="fa fa-calendar"></i> {{ comment.create_date|show_jalali_date }}
+                                            </li>
+                                        </ul>
+                                        <p>
+                                            {{ comment.text }}
+                                        </p>
+                                        <a class="btn btn-primary" onclick="fillParentId({{ comment.id }})"><i
+                                                class="fa fa-reply"></i>پاسـخ</a>
+                                    </div>
+                                </li>
+
+                                {% for sub_comment in comment.articlecomment_set.all %}
+                                    <li class="media second-media" id="single_comment_box_{{ comment.id }}">
+                                        <a class="pull-right" href="#">
+                                            <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                                        </a>
+                                        <div class="media-body">
+                                            <ul class="sinlge-post-meta">
+                                                <li><i class="fa fa-user"></i>{{ sub_comment.user }}</li>
+                                                <li><i class="fa fa-clock-o"></i> {{ sub_comment.create_date | time }}
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-calendar"></i> {{ sub_comment.create_date|show_jalali_date }}
+                                                </li>
+                                            </ul>
+                                            <p>
+                                                {{ sub_comment.text }}
+                                            </p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endfor %}
+
+                        </ul>
+                    </div><!--/Response-area-->
+                    <div class="replay-box" id="comment_form">
+                        {% if request.user.is_authenticated %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h2>نظـر خود را بنویسیـد</h2>
+                                    <div class="text-area">
+                                        <input type="hidden" id="parent_id" value="">
+                                        <div class="blank-arrow">
+                                            <label>متن پیام</label>
+                                        </div>
+                                        <span>*</span>
+                                        <textarea name="message" rows="11" id="commentText"></textarea>
+                                        <a class="btn btn-primary" onclick="sendArticleComment({{ article.id }})">ارسـال
+                                            نظـر</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                برای درج نظر می بایست <a href="{% url 'login_page' %}">لاگین</a> کنید
+                            </div>
+                        {% endif %}
+                    </div><!--/Repaly Box-->
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+                        {% render_partial 'article_module.views.article_categories_component' %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

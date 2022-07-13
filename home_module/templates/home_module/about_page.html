@@ -1,0 +1,60 @@
+{% extends 'shared/_layout.html' %}
+{% load static %}
+
+{% block title %}
+    درباره ما
+{% endblock %}
+
+
+{% block content %}
+    <div id="contact-page" class="container">
+        <div class="bg">
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="contact-info">
+                        <h2 class="title text-center">لوگـو شرکت</h2>
+                        <img src="{{ site_setting.site_logo.url }}" class="img-responsive">
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="about">
+                        <h2 class="title text-center">دربـاره ما</h2>
+                        <p class="about-desc">
+                            {{ site_setting.about_us_text }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 about-address">
+                    <address>
+                        <p>
+                            {{ site_setting.address }}|
+                            تلفن تماس : {{ site_setting.phone }} |
+                            {% if site_setting.fax %}
+                                فکس : {{ site_setting.fax }} |
+                            {% endif %}
+                            {% if site_setting.email %}
+                                ایمیـل : {{ site_setting.email }}
+                            {% endif %}
+                        </p>
+                    </address>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="container">
+                    <div class="col-sm-12" style="overflow: hidden; margin-bottom: 40px"><h2 class="title text-center">
+                        مـا اینجـا هستیـم ... </h2>
+                        <div id="gmap" class="contact-map">
+                            <img src="{% static 'images/home/Map.jpg' %}" alt="Map">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
